@@ -138,7 +138,14 @@ public class Toucan : NSObject {
              The resulting image will match the width and height constraints without scaling the image.
              */
             case crop
+
+            /**
+             Resizes the image to fill the width and height boundaries and crops any excess image data.
+             The resulting image will match the width and height constraints without scaling the image.
+             */
+            case cropTop
             
+
             /**
              Scales the image to fit the constraining dimensions exactly.
              */
@@ -171,6 +178,14 @@ public class Toucan : NSObject {
             switch (fitMode) {
             case .clip:
                 return resizedImage
+                
+            case .cropTop:
+                let croppedRect = CGRect(x: (resizedImage.size.width - size.width) / 2,
+                                         y: 0,
+                                         width: size.width, height: size.height)
+                return Util.croppedImageWithRect(resizedImage, rect: croppedRect)
+                
+                
             case .crop:
                 let croppedRect = CGRect(x: (resizedImage.size.width - size.width) / 2,
                                          y: (resizedImage.size.height - size.height) / 2,
